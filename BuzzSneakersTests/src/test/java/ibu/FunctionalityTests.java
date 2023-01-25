@@ -4,7 +4,10 @@ import java.util.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+@TestMethodOrder(OrderAnnotation.class)
 public class FunctionalityTests {
   private static WebDriver driver;
   private static String baseUrl;
@@ -29,7 +33,7 @@ public class FunctionalityTests {
 
   @BeforeAll
   static void setUp() {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Documents\\chromedriver.exe");
+    // System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Documents\\chromedriver.exe");
     ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
     driver = new ChromeDriver(options);
@@ -45,8 +49,11 @@ public class FunctionalityTests {
   }
 
   @Test
+  @Order(1)
   public void SearchTest() throws InterruptedException {
     driver.get(baseUrl);
+    WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
+    cookies.click();
     Thread.sleep(3000);
     driver.findElement(By.xpath("//nav/div[3]")).click();
     driver.findElement(By.id("search-text")).sendKeys("nike");
@@ -57,11 +64,11 @@ public class FunctionalityTests {
   }
 
   @Test
+  @Order(3)
   public void AddToCartTest() throws InterruptedException {
     driver.get(baseUrl);
     Thread.sleep(3000);
-    WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
-    cookies.click();
+    
     WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[3]/div[5]/a"));
     JavascriptExecutor js = (JavascriptExecutor) driver;
 	  js.executeScript("window.scrollBy(0,600)", "");
@@ -80,6 +87,7 @@ public class FunctionalityTests {
   }
 
   @Test
+  @Order(2)
   public void LogIn() throws InterruptedException {
     driver.get(baseUrl);
     Thread.sleep(3000);
@@ -94,19 +102,51 @@ public class FunctionalityTests {
     assertEquals("Adnan Kuljancic", name);
   }
 
+  // @Test
+  // public void AddToWishlist() throws InterruptedException {
+  //   driver.get(baseUrl);
+  //   Thread.sleep(3000);
+  //   driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
+  //   driver.findElement(By.id("login_email")).click();
+  //   driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
+  //   driver.findElement(By.id("login_password")).click();
+  //   driver.findElement(By.id("login_password")).sendKeys("aditarik1");
+  //   driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
+  //   Thread.sleep(5000);
+  //   String name = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span")).getText();
+  //   assertEquals("Adnan Kuljancic", name);
+  // }
+
   @Test
-  public void AddToWishlist() throws InterruptedException {
+  @Order(4)
+  public void RemoveFromCartTest() throws InterruptedException{
     driver.get(baseUrl);
+    // WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
+    // cookies.click();
+    // WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[3]/div[5]/a"));
+    // element.click();
+    // WebElement size = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div[1]/div[1]/div/div/div[1]/div[2]/div[5]/ul/li[7]"));
+    // size.click();
+    // WebElement addToCart = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div[1]/div[1]/div/div/div[1]/div[2]/div[7]/div[4]/button"));
+    // addToCart.click();
+
+    WebElement cartIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[1]/div/a/div[1]/i"));
+    cartIcon.click();
     Thread.sleep(3000);
-    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
-    driver.findElement(By.id("login_email")).click();
-    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
-    driver.findElement(By.id("login_password")).click();
-    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
-    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
+
+    WebElement removeFromCartBtn=driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form/div[2]/div[1]/div[2]/table/tbody/tr[1]/td[11]/div/a"));
+    removeFromCartBtn.click();
     Thread.sleep(5000);
-    String name = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span")).getText();
-    assertEquals("Adnan Kuljancic", name);
+    WebElement okButton=driver.findElement(By.xpath("/html/body/div[17]/div/div/div[2]/button[2]"));
+    okButton.click();
+    Thread.sleep(2000);
+    WebElement itemCount=driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[1]/div/a/div[2]"));
+    assertEquals(0, Integer.parseInt(itemCount.getText()));
+    // WebElement cartIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[1]/div[1]/a/div[2]"));
+    // String itemCount = cartIcon.getText();
+    // int count = Integer.parseInt(itemCount);
+    // assertEquals(1, count);
+
   }
 
   
