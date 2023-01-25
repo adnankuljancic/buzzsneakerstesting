@@ -78,4 +78,38 @@ public class FunctionalityTests {
     int count = Integer.parseInt(itemCount);
     assertEquals(1, count);
   }
+
+  @Test
+  public void LogIn() throws InterruptedException {
+    driver.get(baseUrl);
+    Thread.sleep(3000);
+    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
+    driver.findElement(By.id("login_email")).click();
+    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
+    driver.findElement(By.id("login_password")).click();
+    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
+    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
+    Thread.sleep(5000);
+    String name = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span")).getText();
+    assertEquals("Adnan Kuljancic", name);
+  }
+
+  @Test
+  public void AddToWishlist() throws InterruptedException {
+    driver.get(baseUrl);
+    Thread.sleep(3000);
+    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
+    driver.findElement(By.id("login_email")).click();
+    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
+    driver.findElement(By.id("login_password")).click();
+    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
+    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
+    Thread.sleep(5000);
+    String name = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span")).getText();
+    assertEquals("Adnan Kuljancic", name);
+  }
+
+  
+
+  
 }
