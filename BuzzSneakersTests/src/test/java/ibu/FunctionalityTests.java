@@ -66,8 +66,7 @@ public class FunctionalityTests {
   @Order(3)
   public void AddToCartTest() throws InterruptedException {
     driver.get(baseUrl);
-    Thread.sleep(3000);
-    
+    Thread.sleep(3000); 
     JavascriptExecutor js = (JavascriptExecutor) driver;
 	  js.executeScript("window.scrollBy(0,600)", "");
     WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[3]/div[5]/a"));
@@ -106,18 +105,14 @@ public class FunctionalityTests {
     driver.get(baseUrl);
     WebElement cartIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[1]/div/a/div[1]/i"));
     cartIcon.click();
-    Thread.sleep(3000);
-
+    Thread.sleep(5000);
     WebElement removeFromCartBtn=driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form/div[2]/div[1]/div[2]/table/tbody/tr[1]/td[11]/div/a"));
     removeFromCartBtn.click();
     Thread.sleep(5000);
-    WebElement okButton=driver.findElement(By.xpath("/html/body/div[17]/div/div/div[2]/button[2]"));
-    okButton.click();
+    driver.findElement(By.xpath("/html/body/div[15]/div/div/div[2]/button[2]")).click();
     Thread.sleep(2000);
     WebElement itemCount=driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[1]/div/a/div[2]"));
     assertEquals(0, Integer.parseInt(itemCount.getText()));
-    
-
   }
 
   @Test
@@ -125,14 +120,6 @@ public class FunctionalityTests {
   public void AddToWishlist() throws InterruptedException {
     driver.get(baseUrl);
     Thread.sleep(3000);
-    
-    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
-    driver.findElement(By.id("login_email")).click();
-    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
-    driver.findElement(By.id("login_password")).click();
-    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
-    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
-    Thread.sleep(5000);
     JavascriptExecutor js = (JavascriptExecutor) driver;
 	  js.executeScript("window.scrollBy(0,600)", "");
     WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/div[5]/div"));
@@ -148,15 +135,6 @@ public class FunctionalityTests {
   public void RemoveFromWishlist() throws InterruptedException {
     driver.get(baseUrl);
     Thread.sleep(3000);
-    WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
-    cookies.click();
-    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
-    driver.findElement(By.id("login_email")).click();
-    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
-    driver.findElement(By.id("login_password")).click();
-    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
-    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
-    Thread.sleep(3000);
     WebElement favoritesIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[2]/a/div[2]"));
     favoritesIcon.click();
     Thread.sleep(3000);
@@ -169,7 +147,19 @@ public class FunctionalityTests {
     assertEquals(0, count);
   }
 
-  
+  @Test
+  @Order(7)
+  public void LogOut() throws InterruptedException {
+    driver.get(baseUrl);
+    Thread.sleep(3000);
+    WebElement logOutBtn = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[2]/a"));
+    logOutBtn.click();
+    Thread.sleep(3000);
+    WebElement element = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span"));
+    String elementText = element.getText();
+    assertEquals("Prijavi se", elementText);
+  }
+
 
   
 }
