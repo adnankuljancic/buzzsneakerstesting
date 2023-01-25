@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 
 public class navigationTests {
@@ -19,6 +20,7 @@ public class navigationTests {
     @Test
     void navigatesToBuzzSarajevo2() throws InterruptedException {
         webDriver.findElement(By.xpath("//nav[3]/ul/li/a/span")).click();
+        Thread.sleep(3000);
         webDriver.findElement(By.xpath("//div[2]/div/div/div/div/div/a/img")).click();
         webDriver.findElement(By.xpath("//body/div[3]")).click();
         WebElement title = webDriver.findElement(By.tagName("h1"));
@@ -29,6 +31,7 @@ public class navigationTests {
     @Test
     void navigatesToNikeProducts() throws InterruptedException {
         webDriver.findElement(By.linkText("BRENDOVI")).click();
+        Thread.sleep(3000);
         webDriver.findElement(By.xpath("//div[2]/div/div/div/a/img")).click();
         assertEquals("https://www.buzzsneakers.ba/proizvodi/nike", webDriver.getCurrentUrl());
 
@@ -50,6 +53,9 @@ public class navigationTests {
     @BeforeAll
     static void beforeClass() {
         webDriver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+		options.addArguments("--start-maximized");
+        webDriver = new ChromeDriver(options);
 
     }
 
