@@ -62,10 +62,9 @@ public class FunctionalityTests {
     Thread.sleep(3000);
     WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
     cookies.click();
-    WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[3]/div[5]/a"));
     JavascriptExecutor js = (JavascriptExecutor) driver;
 	  js.executeScript("window.scrollBy(0,600)", "");
-    Thread.sleep(3000);
+    WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[3]/div[5]/a"));
     element.click();
     Thread.sleep(3000);
     WebElement size = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div[1]/div[1]/div/div/div[1]/div[2]/div[5]/ul/li[7]"));
@@ -98,6 +97,8 @@ public class FunctionalityTests {
   public void AddToWishlist() throws InterruptedException {
     driver.get(baseUrl);
     Thread.sleep(3000);
+    WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
+    cookies.click();
     driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
     driver.findElement(By.id("login_email")).click();
     driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
@@ -105,8 +106,39 @@ public class FunctionalityTests {
     driver.findElement(By.id("login_password")).sendKeys("aditarik1");
     driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
     Thread.sleep(5000);
-    String name = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[3]/div/nav[2]/ul/li[1]/a/span")).getText();
-    assertEquals("Adnan Kuljancic", name);
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+	  js.executeScript("window.scrollBy(0,600)", "");
+    WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/div[5]/div"));
+    element.click();
+    Thread.sleep(3000);
+    WebElement favoritesIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[2]/a/div[2]"));
+    int count = Integer.parseInt(favoritesIcon.getText());
+    assertEquals(1, count);
+  }
+
+  @Test
+  public void RemoveFromWishlist() throws InterruptedException {
+    driver.get(baseUrl);
+    Thread.sleep(3000);
+    WebElement cookies = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[1]/div[2]/div[3]/button"));
+    cookies.click();
+    driver.findElement(By.xpath("//nav[2]/ul/li/a/span")).click();
+    driver.findElement(By.id("login_email")).click();
+    driver.findElement(By.id("login_email")).sendKeys("adnan.kuljancic@stu.ibu.edu.ba");
+    driver.findElement(By.id("login_password")).click();
+    driver.findElement(By.id("login_password")).sendKeys("aditarik1");
+    driver.findElement(By.xpath("//button[@type=\'submit\']")).click();
+    Thread.sleep(3000);
+    WebElement favoritesIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[2]/a/div[2]"));
+    favoritesIcon.click();
+    Thread.sleep(3000);
+    driver.findElement(By.xpath("/html/body/div[3]/div[2]/div[2]/div[2]/div/div/div/div/div[2]/div/div/div[2]/div/span")).click();
+    Thread.sleep(3000);
+    driver.findElement(By.xpath("/html/body/div[14]/div/div/div[2]/button[2]")).click();
+    Thread.sleep(5000);
+    favoritesIcon = driver.findElement(By.xpath("/html/body/div[1]/div/div[4]/div[2]/a/div[2]"));
+    int count = Integer.parseInt(favoritesIcon.getText());
+    assertEquals(0, count);
   }
 
   
